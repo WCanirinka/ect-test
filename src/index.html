@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link
+      rel="stylesheet"
+      href="https://icdcdn.who.int/embeddedct/icd11ect-1.6.1.css"
+    />
+    <title>Embedded Coding Tool v1.6</title>
+  </head>
+  <body>
+    Type for starting search:
+    <!-- input element used for typing the search -->
+    <input type="text" class="ctw-input" autocomplete="off" data-ctw-ino="1" />
+    <!-- div element used for showing the search results -->
+    <div class="ctw-window" data-ctw-ino="1"></div>
+    <!-- example of an extra input element for testing the Embedded Coding Tool select entity function -->
+    The selected code: <input type="text" id="paste-selectedEntity" value="" />
+    <script src="https://icdcdn.who.int/embeddedct/icd11ect-1.6.1.js"></script>
+    <script>
+      // Embedded Coding Tool settings object
+      // please note that only the property "apiServerUrl" is required
+      // the other properties are optional
+      const mySettings = {
+        // The API located at the URL below should be used only for software
+        // development and testing. ICD content at this location might not
+        // be up to date or complete. For production, use the API located at
+        // id.who.int with proper OAUTH authentication
+        apiServerUrl: "https://icd11restapi-developer-test.azurewebsites.net",
+      };
+      // example of an Embedded Coding Tool using the callback selectedEntityFunction
+      // for copying the code selected in an <input> element and clear the search results
+      const myCallbacks = {
+        selectedEntityFunction: (selectedEntity) => {
+          // paste the code into the <input>
+          document.getElementById("paste-selectedEntity").value =
+            selectedEntity.code;
+          // clear the searchbox and delete the search results
+          ECT.Handler.clear("1");
+        },
+      }; // configure the ECT Handler with mySettings and myCallbacks
+      ECT.Handler.configure(mySettings, myCallbacks);
+    </script>
+  </body>
+</html>
